@@ -1,48 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
-import { findDOMNode } from "react-dom";
-
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
+import React, { useState, useRef } from "react";
 import Container from "@material-ui/core/Container";
 import ReactPlayer from "react-player";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-
-import Slider from "@material-ui/core/Slider";
-import Tooltip from "@material-ui/core/Tooltip";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import VolumeUp from "@material-ui/icons/VolumeUp";
-import VolumeDown from "@material-ui/icons/VolumeDown";
-import VolumeMute from "@material-ui/icons/VolumeOff";
-import FullScreen from "@material-ui/icons/Fullscreen";
-import Popover from "@material-ui/core/Popover";
+import { makeStyles } from "@material-ui/core/styles";
 import screenful from "screenfull";
 import Controls from "./components/Controls";
 
 const useStyles = makeStyles((theme) => ({
   playerWrapper: {
-    width: "100%",
-
     position: "relative",
-    // "&:hover": {
-    //   "& $controlsWrapper": {
-    //     visibility: "visible",
-    //   },
-    // },
-  },
-
-  controlsWrapper: {
-    visibility: "hidden",
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: "rgba(0,0,0,0.4)",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
   },
   topControls: {
     display: "flex",
@@ -54,20 +19,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  bottomWrapper: {
-    display: "flex",
-    flexDirection: "column",
-
-    // background: "rgba(0,0,0,0.6)",
-    // height: 60,
-    padding: theme.spacing(2),
-  },
-
   bottomControls: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    // height:40,
   },
 
   button: {
@@ -75,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
   },
   controlIcons: {
     color: "#777",
-
     fontSize: 50,
     transform: "scale(0.9)",
     "&:hover": {
@@ -96,44 +50,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PrettoSlider = withStyles({
-  root: {
-    height: 8,
-  },
-  thumb: {
-    height: 24,
-    width: 24,
-    backgroundColor: "#fff",
-    border: "2px solid currentColor",
-    marginTop: -8,
-    marginLeft: -12,
-    "&:focus, &:hover, &$active": {
-      boxShadow: "inherit",
-    },
-  },
-  active: {},
-  valueLabel: {
-    left: "calc(-50% + 4px)",
-  },
-  track: {
-    height: 8,
-    borderRadius: 4,
-  },
-  rail: {
-    height: 8,
-    borderRadius: 4,
-  },
-})(Slider);
 
-function ValueLabelComponent(props) {
-  const { children, open, value } = props;
 
-  return (
-    <Tooltip open={open} enterTouchDelay={0} placement="top" title={value}>
-      {children}
-    </Tooltip>
-  );
-}
 
 const format = (seconds) => {
   if (isNaN(seconds)) {
@@ -153,9 +71,7 @@ let count = 0;
 
 function App() {
   const classes = useStyles();
-  const [showControls, setShowControls] = useState(false);
   // const [count, setCount] = useState(0);
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const [timeDisplayFormat, setTimeDisplayFormat] = React.useState("normal");
   const [bookmarks, setBookmarks] = useState([]);
   const [state, setState] = useState({
@@ -179,9 +95,7 @@ function App() {
   const canvasRef = useRef(null);
   const {
     playing,
-    controls,
     light,
-
     muted,
     loop,
     playbackRate,
@@ -259,7 +173,7 @@ function App() {
   };
 
   const hanldeMouseLeave = () => {
-    controlsRef.current.style.visibility = "hidden";
+    controlsRef.current.style.visibility = "visible";
     count = 0;
   };
 
@@ -318,13 +232,7 @@ function App() {
 
   return (
     <>
-      <AppBar position="fixed">
-        <Toolbar>
-          <Typography>React Video Player</Typography>
-        </Toolbar>
-      </AppBar>
-      <Toolbar />
-      <Container maxWidth="md">
+      <Container maxWidth="md" style={{ marginTop: '40px' }}>
         <div
           onMouseMove={handleMouseMove}
           onMouseLeave={hanldeMouseLeave}
@@ -333,9 +241,9 @@ function App() {
         >
           <ReactPlayer
             ref={playerRef}
-            width="100%"
-            height="100%"
-            url="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+            width="480px"
+            height="820px"
+            url="https://d2we8z90utluth.cloudfront.net/files/videos/a850d3c4-61ec-4158-be9b-bba202933bd2/405x720_a850d3c4-61ec-4158-be9b-bba202933bd2.m3u8"
             pip={pip}
             playing={playing}
             controls={false}
@@ -380,28 +288,7 @@ function App() {
           />
         </div>
 
-        <Grid container style={{ marginTop: 20 }} spacing={3}>
-          {bookmarks.map((bookmark, index) => (
-            <Grid key={index} item>
-              <Paper
-                onClick={() => {
-                  playerRef.current.seekTo(bookmark.time);
-                  controlsRef.current.style.visibility = "visible";
 
-                  setTimeout(() => {
-                    controlsRef.current.style.visibility = "hidden";
-                  }, 1000);
-                }}
-                elevation={3}
-              >
-                <img crossOrigin="anonymous" src={bookmark.image} />
-                <Typography variant="body2" align="center">
-                  bookmark at {bookmark.display}
-                </Typography>
-              </Paper>
-            </Grid>
-          ))}
-        </Grid>
         <canvas ref={canvasRef} />
       </Container>
     </>
