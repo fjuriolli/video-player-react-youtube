@@ -2,8 +2,6 @@ import React, { forwardRef, useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
-import FastRewindIcon from "@material-ui/icons/FastRewind";
-import FastForwardIcon from "@material-ui/icons/FastForward";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PauseIcon from "@material-ui/icons/Pause";
 import Slider from "@material-ui/core/Slider";
@@ -118,9 +116,9 @@ const Controls = forwardRef(
               aria-label="play"
             >
               {playing ? (
-                <PauseIcon fontSize="inherit" />
+                <PauseIcon fontSize="large"  />
               ) : (
-                <PlayArrowIcon fontSize="inherit" />
+                <PlayArrowIcon fontSize="large"/>
               )}
             </IconButton>
 
