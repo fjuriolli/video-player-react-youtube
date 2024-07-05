@@ -253,6 +253,7 @@ function App() {
             playbackRate={playbackRate}
             volume={volume}
             muted={muted}
+            playsinline={true}
             onProgress={handleProgress}
             config={{
               file: {
