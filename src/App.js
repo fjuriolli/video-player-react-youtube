@@ -249,6 +249,7 @@ function App() {
             controls={false}
             light={light}
             loop={loop}
+            autoPlay={false}
             playbackRate={playbackRate}
             volume={volume}
             muted={muted}

@@ -1,10 +1,14 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import IconButton from "@material-ui/core/IconButton";
+import FastRewindIcon from "@material-ui/icons/FastRewind";
+import FastForwardIcon from "@material-ui/icons/FastForward";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import PauseIcon from "@material-ui/icons/Pause";
 import Slider from "@material-ui/core/Slider";
 import Tooltip from "@material-ui/core/Tooltip";
 import Grid from "@material-ui/core/Grid";
-
 
 const useStyles = makeStyles((theme) => ({
   controlsWrapper: {
@@ -75,6 +79,10 @@ const Controls = forwardRef(
       onSeekMouseDown,
       onSeekMouseUp,
       onDuration,
+      onRewind,
+      onPlayPause,
+      onFastForward,
+      playing,
       played,
       elapsedTime,
     },
@@ -99,6 +107,24 @@ const Controls = forwardRef(
           >
            
           
+          </Grid>
+
+          <Grid container direction="row" alignItems="center" justify="center">
+            
+
+            <IconButton
+              onClick={onPlayPause}
+              className={classes.controlIcons}
+              aria-label="play"
+            >
+              {playing ? (
+                <PauseIcon fontSize="inherit" />
+              ) : (
+                <PlayArrowIcon fontSize="inherit" />
+              )}
+            </IconButton>
+
+           
           </Grid>
          
           {/* bottom controls */}
